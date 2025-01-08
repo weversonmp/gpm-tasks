@@ -44,8 +44,8 @@ export default function Index() {
                 setTexto("")
                 GeraAlert(
                     'success',
-                    'Hello',
-                    'Tarefa adicionada com sucesso 👋'
+                    'Show!!',
+                    'Tarefa adicionada com sucesso 🚀'
                 );
             }
 
@@ -54,8 +54,16 @@ export default function Index() {
         }
     };
 
-    const showToast = () => {
-        console.log('==dataTeste', Date.now());
+    const deletarTarefa = (id: string) => {
+        const taskCrud = new TaskCrud(id, '');
+        console.log("🚀 ~ deletarTarefa ~ id:", id)
+        let todasTarefasSalvas: Array<Tarefa> = descDaTarefa
+        todasTarefasSalvas = todasTarefasSalvas.filter((tarefa) => {
+            return tarefa.id != id
+        }); // Remove a tarefa (que chegou como parâmetro) do array
+
+        setdescDaTarefa(todasTarefasSalvas);
+        taskCrud.saveTask(todasTarefasSalvas);
     }
 
     const saveStorage = async (descricaoTarefa: string): Promise<void> => {
@@ -65,6 +73,7 @@ export default function Index() {
 
         setdescDaTarefa(todasTarefasSalvas);
         taskCrud.saveTask(todasTarefasSalvas);
+
     }
 
     const getStorage = async (): Promise<void> => {
@@ -92,9 +101,8 @@ export default function Index() {
                     </View>
                     <Text style={styles.textErro}> {alert} </Text>
                     {descDaTarefa.map((item: Tarefa) => {
-                        return (
-                            // {/* <Text> {item.desc} </Text> */}
-                            <TarefaComponent id={item.id} desc={item.desc} onDelete={() => showToast} />
+                        return item.desc && (
+                            <TarefaComponent id={item.id} desc={item.desc} onDelete={deletarTarefa} />
                         )
                     })}
                 </View>
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     },
     textErro: {
         color: 'red',
-        fontSize: 10,
+        fontSize: 15,
     }
 })
 

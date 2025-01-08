@@ -17,12 +17,12 @@ export default class TaskCrud {
         )
     }
 
-    saveTask = async (todasTarefasSalvas: Array<Tarefa>): Promise<Array<Tarefa>> => {
+    saveTask = async (todasTarefasSalvas: Array<Tarefa>): Promise<void> => {
         todasTarefasSalvas.push({ id: this.id, desc: this.tarefa });
 
         await AsyncStorage.setItem("listaDeTarefas", JSON.stringify([...todasTarefasSalvas]))
 
-        return todasTarefasSalvas;
+        // return todasTarefasSalvas;
     }
 
     // deleteTask(id) {

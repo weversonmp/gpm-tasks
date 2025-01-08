@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
@@ -16,7 +16,8 @@ const teste = () => {
 }
 
 
-export default function TarefaComponent(tarefa: Tarefa, onDelete: () => void) {
+export default function TarefaComponent(tarefa: Tarefa) {
+    console.log(tarefa);
     function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
         const styleAnimation = useAnimatedStyle(() => {
             return {
@@ -25,9 +26,11 @@ export default function TarefaComponent(tarefa: Tarefa, onDelete: () => void) {
         });
 
         return (
-            <Reanimated.View style={styleAnimation}>
-                <Text onPress={onDelete} style={styles.rightAction} >X</Text>
-            </Reanimated.View>
+            <TouchableOpacity onPress={() => tarefa.onDelete?.(tarefa.id)}>
+                <Reanimated.View style={styleAnimation}>
+                    <Text style={styles.rightAction} >X</Text>
+                </Reanimated.View>
+            </TouchableOpacity>
         );
     }
 
@@ -39,7 +42,7 @@ export default function TarefaComponent(tarefa: Tarefa, onDelete: () => void) {
                 enableTrackpadTwoFingerGesture
                 rightThreshold={40}
                 renderRightActions={RightAction}>
-                <Text>{tarefa.desc}</Text>
+                <Text style={styles.textoTarefa} >{tarefa.desc}</Text>
             </ReanimatedSwipeable>
         </GestureHandlerRootView>
     );
@@ -59,6 +62,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         paddingTop: 7
     },
+    textoTarefa: {
+
+    },
     separator: {
         width: '100%',
         borderTopWidth: 1,
@@ -68,7 +74,9 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: 'darkgray',
         alignItems: 'center',
-        borderRadius: 10
+        justifyContent: 'center',
+        borderRadius: 10,
+        padding: 5
     },
     container_tarefa: {
         width: '100%',

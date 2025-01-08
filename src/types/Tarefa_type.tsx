@@ -1,5 +1,5 @@
 export type Tarefa = {
     id: string,
     desc: string,
-    onDelete?: () => void
+    onDelete?: (id: string) => void
 };
