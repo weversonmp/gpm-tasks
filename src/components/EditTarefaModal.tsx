@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
+import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -25,8 +25,8 @@ export default function EditTarefaModal(props: Props) {
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
-                            Alert.alert('Modal has been closed.');
-                            setModalVisible(!props.visible);
+                            setModalVisible(!props.visible)
+                            props.closeModal()
                         }}>
 
                         <View style={styles.centeredView}>

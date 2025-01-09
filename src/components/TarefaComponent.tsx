@@ -23,7 +23,7 @@ export default function TarefaComponent(tarefa: Tarefa) {
     function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
         const styleAnimation = useAnimatedStyle(() => {
             return {
-                transform: [{ translateX: drag.value + 356 }]
+                transform: [{ translateX: drag.value + 50 }]
             };
         });
 
@@ -41,7 +41,7 @@ export default function TarefaComponent(tarefa: Tarefa) {
     function LeftAction(prog: SharedValue<number>, drag: SharedValue<number>) {
         const styleAnimation = useAnimatedStyle(() => {
             return {
-                transform: [{ translateX: drag.value - 356 }]
+                transform: [{ translateX: drag.value - 50 }]
             };
         });
 
@@ -71,11 +71,11 @@ export default function TarefaComponent(tarefa: Tarefa) {
                     containerStyle={tarefa.did ? styles.didSwipeable : styles.swipeable}
                     friction={2}
                     enableTrackpadTwoFingerGesture
-                    rightThreshold={100}
+                    rightThreshold={70}
                     leftThreshold={70}
                     renderRightActions={RightAction}
                     renderLeftActions={LeftAction}
-                    overshootFriction={1}
+                    overshootFriction={100}
                     onSwipeableOpen={() => {
                         closeSwipe(myRef);
                     }}
@@ -101,7 +101,7 @@ export default function TarefaComponent(tarefa: Tarefa) {
 
 const styles = StyleSheet.create({
     rightAction: {
-        width: 355,
+        width: 49,
         height: 50,
         backgroundColor: 'red',
         color: 'white',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         paddingTop: 10
     },
     leftAction: {
-        width: 355,
+        width: 49,
         height: 50,
         backgroundColor: 'blue',
         color: 'white',
