@@ -12,12 +12,8 @@ import { faTrashCan, faCircleCheck } from '@fortawesome/free-regular-svg-icons'
 // Types
 import { Tarefa } from "../types/allTypesExport";
 
-const dd = (desc: string, variable: any) => {
-    console.log(`====${desc}:`, variable);
-}
 
-
-export default function TarefaComponent(tarefa: Tarefa) {
+export default function TaskComponent(tarefa: Tarefa) {
     let myRef = useRef(null);
 
     function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
@@ -88,7 +84,7 @@ export default function TarefaComponent(tarefa: Tarefa) {
                 >
 
                     <TouchableOpacity onLongPress={() => tarefa.openModal?.(tarefa.id)}>
-                        <Text style={(tarefa.did === true ? styles.didTextoTarefa : styles.textoTarefa)} >
+                        <Text style={(Boolean(tarefa.did) ? styles.didTextoTarefa : styles.textoTarefa)} >
                             {getLimitedText(tarefa.desc)}
                         </Text>
                     </TouchableOpacity>

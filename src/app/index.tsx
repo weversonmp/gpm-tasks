@@ -3,31 +3,23 @@ import { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
-import * as SplashScreen from 'expo-splash-screen';
 
 // Components
-import TarefaComponent from '../components/TarefaComponent'
-import EditTarefaModal from '../components/EditTarefaModal';
+import TaskComponent from '../components/TaskComponent'
+import EditTaskModal from '../components/EditTaskModal';
 
 // Classes
 import TaskCrud from "../classes/TaskCrud";
 
 // Functions
-import GeraAlert from "../functions/AlertaToast";
+import AlertToast from "../functions/AlertToast";
 
 // Types
 import { Tarefa } from "../types/allTypesExport";
 
-// Fonts
-import { useFonts } from "expo-font";
-import { Raleway_200ExtraLight } from '@expo-google-fonts/raleway';
-import AlertaToast from "../functions/AlertaToast";
-
 const getDataTime = (): string => {
     return Date.now().toString();
 }
-
-SplashScreen.preventAutoHideAsync();
 
 export default function Index() {
     const [alert, setAlert] = useState('');
@@ -35,34 +27,16 @@ export default function Index() {
     const [todasAsTarefas, setTodasAsTarefas] = useState<Tarefa[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [dadosEditTarefa, setDadosEditTarefa] = useState<Tarefa>();
-    // const [fontsLoaded] = useFonts({
-    //     Raleway_200ExtraLight
-    // });
-
-    const [loaded, error] = useFonts({
-        'raleway': Raleway_200ExtraLight
-    });
 
     useEffect(() => {
         getStorage()
-
-        if (loaded || error) {
-            SplashScreen.hideAsync();
-        }
-    }, [loaded, error])
-
-
-    const dd = (desc: string, variable: any) => {
-        console.log(`🚀====${desc}:`, variable);
-    }
-
-    dd('todasAsTarefas', todasAsTarefas)
+    }, [])
 
     const submit = async () => {
         try {
             if (texto === "") {
                 setAlert("Descreva uma tarefa")
-                GeraAlert([
+                AlertToast([
                     'error',
                     'Opa!!!',
                     'Campo vazio! Nenhuma tarefa foi adicionada 🚨'
@@ -73,7 +47,7 @@ export default function Index() {
                 salvarTarefa(resultado)
                 setAlert("")
                 setTexto("")
-                GeraAlert([
+                AlertToast([
                     'success',
                     'Show!!',
                     'Tarefa adicionada com sucesso 🚀'
@@ -109,8 +83,6 @@ export default function Index() {
         if (tarefaConcluida) {
             const NovoEstadoTarefa = !tarefaConcluida.did;
             tarefaConcluida.did = NovoEstadoTarefa;
-            dd('tarefaConcluida', tarefaConcluida)
-            dd('NovoEstadoTarefa', NovoEstadoTarefa)
             NovoEstadoTarefa == false ? todasTarefasSalvas.unshift(tarefaConcluida) : todasTarefasSalvas.push(tarefaConcluida);
             taskCrud.saveTask(todasTarefasSalvas);
 
@@ -141,7 +113,6 @@ export default function Index() {
 
     const updateTarefa = (id: string, desc: string) => {
         const taskCrud = new TaskCrud('', '');
-        dd('desc', desc)
 
         todasAsTarefas.forEach(tarefa => {
             if (tarefa.id === id) {
@@ -153,7 +124,7 @@ export default function Index() {
         setTodasAsTarefas(todasAsTarefas);
         setModalVisible(false);
 
-        AlertaToast([
+        AlertToast([
             'success',
             !desc ? 'A tarefa foi removida com sucesso' : 'Tarefa atualizada com sucesso'
         ]);
@@ -169,7 +140,7 @@ export default function Index() {
             <ScrollView scrollEnabled keyboardShouldPersistTaps="handled" >
                 <View style={styles.container}>
 
-                    <Text style={styles.titulo}>GPM Tasks</Text>
+                    <Text style={[styles.titulo, styles.raleway]}>GPM Tasks</Text>
 
                     <View style={styles.containerBuscar}>
                         <TextInput
@@ -180,12 +151,6 @@ export default function Index() {
                             placeholderTextColor="#333738"
                             returnKeyType="send"
                             enablesReturnKeyAutomatically={true}
-                            onKeyPress={(e) => {
-                                dd('e', e.nativeEvent.key);
-                                if (e.nativeEvent.key === 'Enter') {
-                                    submit();
-                                }
-                            }}
                         />
                         <TouchableOpacity onPress={submit}>
                             <FontAwesomeIcon
@@ -201,7 +166,7 @@ export default function Index() {
                     <View style={{ marginTop: 10 }}>
                         {todasAsTarefas.map((item: Tarefa) => {
                             return item.desc && item.desc && (
-                                <TarefaComponent
+                                <TaskComponent
                                     key={item.id}
                                     id={item.id}
                                     desc={item.desc}
@@ -214,7 +179,7 @@ export default function Index() {
                         })}
                     </View>
 
-                    {modalVisible && dadosEditTarefa?.id && <EditTarefaModal
+                    {modalVisible && dadosEditTarefa?.id && <EditTaskModal
                         visible={modalVisible}
                         idTarefa={dadosEditTarefa.id}
                         descTarefa={dadosEditTarefa.desc}
@@ -233,7 +198,7 @@ export default function Index() {
 const styles = StyleSheet.create({
     raleway: {
         fontSize: 30,
-        fontFamily: "Raleway_200ExtraLight",
+        fontFamily: "raleway_600",
     },
     container: {
         flex: 1,
@@ -246,8 +211,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 10,
         marginBottom: 10,
-        color: '#FFF',
-        fontFamily: 'raleway'
+        color: '#FFF'
     },
     input: {
         flex: 1,

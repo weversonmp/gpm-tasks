@@ -1,1 +1,1 @@
-export { Tarefa } from './TarefaType';
+export { Tarefa } from './TaskType';

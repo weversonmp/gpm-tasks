@@ -12,7 +12,7 @@ type Props = {
     updateTarefa: (id: string, desc: string) => void
 }
 
-export default function EditTarefaModal(props: Props) {
+export default function EditTaskModal(props: Props) {
     const [modalVisible, setModalVisible] = useState(props.visible);
     const [texto, setTexto] = useState(props.descTarefa);
 
@@ -31,7 +31,7 @@ export default function EditTarefaModal(props: Props) {
 
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <View style={{ width: '100%', height: 300, marginBottom: 10 }}>
+                                <View style={styles.inputContainer}>
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={(novoTexto) => setTexto(novoTexto)}
@@ -96,6 +96,11 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 4,
         elevation: 5,
+    },
+    inputContainer: {
+        width: '100%',
+        height: 300,
+        marginBottom: 10
     },
     input: {
         flex: 1,
