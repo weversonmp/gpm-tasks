@@ -27,12 +27,12 @@ npx expo start
 
 ```
 ## 📚 Tecnologias
-React Native
-TypeScript
-Expo
-React Native Toast
-ReanimatedSwipeable
-FontAwesome
+- React Native
+- TypeScript
+- Expo
+- React Native Toast
+- ReanimatedSwipeable
+- FontAwesome
 
 ### Principais Decisões Tecnicas
 #### Bibliotecas

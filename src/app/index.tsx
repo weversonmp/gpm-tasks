@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert, Image } from "react-native";
 import { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -138,30 +138,33 @@ export default function Index() {
     return (
         <View style={{ backgroundColor: '#1F2223', height: '100%' }}>
             <ScrollView scrollEnabled keyboardShouldPersistTaps="handled" >
-                <View style={styles.container}>
-
-                    <Text style={[styles.titulo, styles.raleway]}>GPM Tasks</Text>
-
-                    <View style={styles.containerBuscar}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(novoTexto) => setTexto(novoTexto)}
-                            defaultValue={texto}
-                            placeholder="Descreva sua tarefa..."
-                            placeholderTextColor="#333738"
-                            returnKeyType="send"
-                            enablesReturnKeyAutomatically={true}
+                <View style={s.container}>
+                    <View style={s.header}>
+                        <Image
+                            source={require('../assets/icon.png')}
+                            style={s.logo}
                         />
-                        <TouchableOpacity onPress={submit}>
-                            <FontAwesomeIcon
-                                icon={faCirclePlus}
-                                size={40}
-                                color="green"
+                        <View style={s.containerBuscar}>
+                            <TextInput
+                                style={s.input}
+                                onChangeText={(novoTexto) => setTexto(novoTexto)}
+                                defaultValue={texto}
+                                placeholder="Descreva sua tarefa..."
+                                placeholderTextColor="#333738"
+                                returnKeyType="send"
+                                enablesReturnKeyAutomatically={true}
                             />
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={submit}>
+                                <FontAwesomeIcon
+                                    icon={faCirclePlus}
+                                    size={40}
+                                    color="green"
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
-                    {alert && <Text style={styles.textErro}> {alert} </Text>}
+                    {alert && <Text style={s.textErro}> {alert} </Text>}
 
                     <View style={{ marginTop: 10 }}>
                         {todasAsTarefas.map((item: Tarefa) => {
@@ -190,21 +193,32 @@ export default function Index() {
             </ScrollView>
 
             <Toast />
-            {modalVisible && dadosEditTarefa?.id && <View style={styles.backdrop} />}
+            {modalVisible && dadosEditTarefa?.id && <View style={s.backdrop} />}
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    raleway: {
-        fontSize: 30,
-        fontFamily: "raleway_600",
+const s = StyleSheet.create({
+    header: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 30,
+        backgroundColor: '#141718',
+        borderEndEndRadius: 20,
+        borderStartEndRadius: 20
     },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10
+    },
+    logo: {
+        width: 150,
+        height: 150,
+        backgroundColor: 'white',
+        borderRadius: 150,
+        marginBottom: 20
     },
     titulo: {
         fontSize: 30,
