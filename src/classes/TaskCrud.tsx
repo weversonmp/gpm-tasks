@@ -1,14 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Tarefa } from "../types/all_types_export";
+import { Tarefa } from "../types/allTypesExport";
 
 export default class TaskCrud {
-    id: string;
-    tarefa: string;
+    id?: string;
+    desc?: string;
+    did?: boolean | null;
 
     constructor(id: string, tarefa: string) {
         this.id = id;
-        this.tarefa = tarefa;
+        this.desc = tarefa;
     }
 
     getTasks = async (): Promise<Array<Tarefa>> => {
@@ -18,14 +19,19 @@ export default class TaskCrud {
     }
 
     saveTask = async (todasTarefasSalvas: Array<Tarefa>): Promise<void> => {
-        todasTarefasSalvas.push({ id: this.id, desc: this.tarefa });
+        this.id && this.desc && todasTarefasSalvas.unshift({ id: this.id, desc: this.desc, did: this.did });
 
         await AsyncStorage.setItem("listaDeTarefas", JSON.stringify([...todasTarefasSalvas]))
-
-        // return todasTarefasSalvas;
     }
 
-    // deleteTask(id) {
-    //     setTasks(tasks.filter(task => task.id !== id));
-    //   }
+    removeTask = async (todasTarefasSalvas: Array<Tarefa>): Promise<Tarefa[]> => {
+        let todasTarefasAtualizadas: Array<Tarefa> = todasTarefasSalvas.filter((tarefa) => {
+            return tarefa.id != this.id && tarefa.desc != ''
+        }); // Remove a tarefa (que chegou como parâmetro) do array
+
+        await AsyncStorage.setItem("listaDeTarefas", JSON.stringify([...todasTarefasAtualizadas]));
+
+        return todasTarefasAtualizadas;
+
+    }
 }

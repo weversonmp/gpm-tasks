@@ -1,1 +1,0 @@
-export { Tarefa } from './Tarefa_type';
